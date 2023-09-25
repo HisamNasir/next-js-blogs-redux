@@ -6,14 +6,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRouter } from "next/router";
 import { auth, storage, upload, useAuth } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { FaAccusoft, FaUser } from "react-icons/fa";
-import Profilepic from "./Profilepic";
 const Register = () => {
-  const currentUser = useAuth();
-  const [photoURL, setPhotoURL] = useState(<FaUser />);
-  const [photo, setPhoto] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [previewImage, setPreviewImage] = useState(null);
   const [rName, setrName] = useState("");
   const [rEmail, setrEmail] = useState("");
   const [rPassword, setrPassword] = useState("");

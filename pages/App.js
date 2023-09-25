@@ -1,11 +1,11 @@
 import React from 'react'
 import HomePage from './HomePage/page'
 import Link from 'next/link'
-import { BrowserRouter, Routes,Route } from 'react-router-dom'
+import { BrowserRouter, Routes,Route, useRouter } from 'next/router'
 
 const App = () => {
   const router = useRouter();
-  const { id } = router.query; // Access the id parameter
+  const { id } = router.query;
 
   return (
     <div>

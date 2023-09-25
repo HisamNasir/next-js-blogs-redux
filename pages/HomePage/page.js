@@ -6,7 +6,6 @@ import { deleteUser } from "../UserReducer";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
-import Profilepic from "../auth/Profilepic";
 useRouter;
 
 const HomePage = () => {

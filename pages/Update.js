@@ -6,39 +6,15 @@ import { useRouter } from "next/router";
 
 const Update = () => {
   const navigate = useRouter();
-  // const { id } = router.query;
-  // const users = useSelector((state) => state.users);
-  // const user = users.find((user) => user.id === id);
-  
-  
-  // const existingUsers = users.filter((user) => user.id === id);
-  // const { name, paragraph } = user;
-  // const [uname, setName] = useState(name);
-  // const [uparagraph, setparagraph] = useState(paragraph);
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-
   
   const { id } = useParams();
   const users = useSelector((state) => state.users);
-
-  // Find the user with the matching ID
   const user = users.find((user) => user.id === id);
   
   const [uname, setName] = useState("");
   const [uparagraph, setparagraph] = useState("");
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  
-    // useEffect(() => {
-    //   if (!user) {
-    //   }
-    // }, [user]);
-  
-    // if (!user) {
-    //   return <div>User not found</div>;
-    // }
-    useEffect(() => {
+     useEffect(() => {
     
       if (user) {
         setName(user.name);
@@ -48,8 +24,6 @@ const Update = () => {
   
     const handleUpdate = (event) => {
       event.preventDefault();
-      
-      // Check if user is found before dispatching the update action
       if (user) {
         dispatch(
           updateUser({
@@ -66,25 +40,6 @@ const Update = () => {
       return <div>User not found</div>;
     }
   
-
-
-  // const handleUpdate = (event) => {
-  //   event.preventDefault();
-  //   dispatch(
-  //     updateUser({
-  //       id: id,
-  //       name: uname,
-  //       paragraph: uparagraph,
-  //     })
-  //   );
-  //   navigate("/");
-  // };
-
-  // useEffect(() => {
-  //   // Update local state when the user prop changes (e.g., when Redux state updates)
-  //   setName(user.name);
-  //   setparagraph(user.paragraph);
-  // }, [user]);
 
   return (
     <div>

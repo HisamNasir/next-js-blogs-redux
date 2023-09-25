@@ -2,7 +2,6 @@ import "@/styles/globals.css";
 import { configureStore } from "@reduxjs/toolkit";
 import UserReducer from "./UserReducer";
 import { Provider } from "react-redux";
-import { Store } from "redux";
 import { ThemeProvider } from "next-themes";
 import ModeChange from "@/components/ModeChange";
 
