@@ -61,20 +61,20 @@ export default function Profilepic() {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
         
-<div class="flex items-center justify-center">
-    <label for="dropzone-file" class="flex w-64 h-64 relative  object-cover cursor-pointer">
+<div className="flex items-center justify-center">
+    <label htmlFor="dropzone-file" className="flex w-64 h-64 relative  object-cover cursor-pointer">
       <img
         src={photoURL}
         alt="Avatar"
         className="avata absolute rounded-3xl  w-64 h-64 object-cover"
       />
       <div className=" absolute h-full flex justify-end items-end w-full">
-        <i class="flex relative z-10  flex-col items-end justify-end bg-black text-white border p-4 rounded-full">
+        <i className="flex relative z-10  flex-col items-end justify-end bg-black text-white border p-4 rounded-full">
             <FaUpload/>
         </i>
 
       </div>
-        <input id="dropzone-file" accept="image/*" type="file" class="hidden" onChange={handleFileChange}  />
+        <input id="dropzone-file" accept="image/*" type="file" className="hidden" onChange={handleFileChange}  />
     </label>
 </div> 
 

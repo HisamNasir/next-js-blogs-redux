@@ -25,7 +25,7 @@ const Create = () => {
         </div>
         <div className='p-4 space-y-2'>
           <label className='' htmlFor='paragraph'>Paragraph</label>
-<textarea onChange={(e)=>setparagraph(e.target.value)} name='paragraph'  id="message" rows="22" class="block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:none " placeholder="Write your thoughts here..."></textarea>
+<textarea onChange={(e)=>setparagraph(e.target.value)} name='paragraph'  id="message" rows="22" className="block p-2.5 w-full text-sm  rounded-lg border border-gray-300 focus:none " placeholder="Write your thoughts here..."></textarea>
         </div>
         <button className='p-8 w-full fixed bottom-0  bg-green-400'>Submit</button>
       </form>
