@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import Link from 'next/link';
 import Register from './Register'
 import { useDispatch } from 'react-redux';
-import { signUpUser } from '../UserReducer';
+import { signUpUser } from '../redux/features/userSlice';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import {auth} from "../firebase"
+import {auth} from "./firebase"
 // import { useHistory } from 'react-router-dom';
 import { useRouter } from 'next/router'
 
@@ -36,7 +36,7 @@ import { useRouter } from 'next/router'
         </form>
         {registrationError && <p className="text-red-500 text-center">{registrationError}</p>}
         <div className=' text-center m-2'>
-        <a className='p-2  text-slate-400 hover:text-red-500 hover:font-semibold transition duration-700 text-center' href="/auth/Register">Register</a>
+        <a className='p-2  text-slate-400 hover:text-red-500 hover:font-semibold transition duration-700 text-center' href="/Register">Register</a>
         </div>
         <button onClick={log} className=' bg-green-500 p-2 rounded-b-2xl'>Login</button>
       </div>

@@ -1,7 +1,7 @@
 import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "./UserReducer";
+import { updateUser } from "../redux/features/userSlice";
 import { useRouter } from "next/router";
 
 const Update = () => {

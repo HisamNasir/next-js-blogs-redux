@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FaEdit, FaUser, FaSignOutAlt, FaTrash } from "react-icons/fa";
 import Link from "next/link";
-import { deleteUser } from "../UserReducer";
+import { deleteUser } from "../redux/features/userSlice";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "./firebase";
 import { useRouter } from "next/router";
 useRouter;
 

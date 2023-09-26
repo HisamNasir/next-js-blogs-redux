@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { signUpUser } from "../UserReducer";
+import { signUpUser } from "../redux/features/userSlice";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRouter } from "next/router";
-import { auth, storage, upload, useAuth } from "../firebase";
+import { auth, storage, upload, useAuth } from "./firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 const Register = () => {
   const [rName, setrName] = useState("");
@@ -78,7 +78,7 @@ const Register = () => {
         {registrationError && (
           <p className="text-red-500 text-center">{registrationError}</p>
         )}
-        <a className="bg-blue-500 p-2 text-center" href="/auth/Login">
+        <a className="bg-blue-500 p-2 text-center" href="/">
           Login
         </a>
         <button

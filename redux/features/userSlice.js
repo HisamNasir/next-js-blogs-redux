@@ -1,5 +1,5 @@
 const { createSlice } = require("@reduxjs/toolkit");
-const { userList } = require("./Data");
+const { userList } = require("../../pages/Data");
 //-----------------------------Slice for card-----------------
 const userSlice=createSlice({
     name:'users',
