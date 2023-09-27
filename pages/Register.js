@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { signUpUser } from "../redux/features/userSlice";
@@ -29,31 +28,22 @@ const Register = () => {
       );
       const user = userCredential.user;
 
-
-
-
       if (photo) {
         const storageRef = ref(storage, `profilePictures/${user.uid}`);
         const snapshot = await uploadBytes(storageRef, photo);
         const downloadURL = await getDownloadURL(snapshot.ref);
-      
+
         await updateProfile(user, {
           displayName: rName,
           photoURL: downloadURL,
         });
-      
-        setProfilePictureURL(downloadURL); // Note: You should define setProfilePictureURL if it's not defined in your code.
+
+        setProfilePictureURL(downloadURL);
       } else {
         await updateProfile(user, {
           displayName: rName,
         });
       }
-      
-
-
-
-
-
 
       history.push("/Login");
     } catch (error) {
@@ -65,20 +55,11 @@ const Register = () => {
   return (
     <div className="p-6  w-full h-screen flex flex-col items-center justify-center">
       <div className=" rounded-2xl flex flex-col bg-slate-300">
-
-
         <form className="p-6 sm:w-[300px] md:w-[600px] rounded-2xl flex flex-col space-y-2 bg-slate-300">
-          {/* <div className="">
-
-               <input type="file" onChange={handleClick}/>
-                <button className="bg-red-500" disabled={loading||!photo} onClick={handleClick}>Upload</button>
-                <image src={photoURL} alt="Avatar" className="avatar"/>
-
-          </div> */}
           <label className="text-black">Name</label>
           <input
             className="p-2 rounded-lg"
-            onChange={(e) => setrName(e.target.value)} //Not functional dummy
+            onChange={(e) => setrName(e.target.value)}
             type="text"
             placeholder="Full Name"
           />

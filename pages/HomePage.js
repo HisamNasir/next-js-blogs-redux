@@ -8,7 +8,15 @@ import { db } from "../firebase";
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
 import { checkAuth } from "@/utills/auth";
-import { collection, getDocs, query, where } from "firebase/firestore";
+
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 const HomePage = () => {
   const router = useRouter();
@@ -18,6 +26,7 @@ const HomePage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [userName, setUserName] = useState("");
   const blogCollectionRef = collection(db, "bloglist");
+  const dispatch = useDispatch();
 
   //Prevent page url leak
   useEffect(() => {
@@ -33,8 +42,6 @@ const HomePage = () => {
 
     fetchData();
   }, [router]);
-
-  //search bar
   const handleSearch = () => {
     const filteredBlogs = bloglist.filter((blog) =>
       blog.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -42,10 +49,7 @@ const HomePage = () => {
     setSearchResults(filteredBlogs);
   };
 
-
-
   useEffect(() => {
-    // Fetch blogs from Firebase Firestore
     const getBlogsFromFirestore = async () => {
       const querySnapshot = await getDocs(blogCollectionRef);
 
@@ -59,7 +63,6 @@ const HomePage = () => {
 
     getBlogsFromFirestore();
 
-    // Listen for changes in authentication state
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
@@ -70,12 +73,9 @@ const HomePage = () => {
         setUserName("");
       }
     });
-
-    // Clean up the subscription when the component unmounts
     return () => unsubscribe();
   }, []);
 
-  // Handle the search logic
   useEffect(() => {
     const filteredBlogs = bloglist.filter((blog) =>
       blog.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -93,7 +93,25 @@ const HomePage = () => {
       }
     }
   };
+  const deleteBlogFromFirestore = async (blogId) => {
+    const blogRef = doc(db, "bloglist", blogId);
+    try {
+      await deleteDoc(blogRef);
+      console.log("Blog deleted successfully");
+    } catch (error) {
+      console.error("Error deleting blog from Firestore:", error);
+      throw error;
+    }
+  };
+  const handleDelete = async (blogId) => {
+    try {
+      await deleteBlogFromFirestore(blogId);
 
+      dispatch(deleteUser(blogId));
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+    }
+  };
   return (
     <div className="w-full justify-center flex flex-col">
       <div className="md:grid space-y-4 grid-flow-col mt-20 items-center">
@@ -158,7 +176,6 @@ const HomePage = () => {
         </button>
       </div>
 
-      {/* Display search results */}
       <div className="p-4">
         {searchResults.map((result) => (
           <div className="p-2 border m-4 rounded-3xl" key={result.id}>

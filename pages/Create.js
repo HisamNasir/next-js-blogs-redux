@@ -6,48 +6,27 @@ import { FaEdit, FaUser, FaSignOutAlt, FaTrash } from "react-icons/fa";
 import Link from "next/link";
 import { deleteUser } from "../redux/features/userSlice";
 import { signOut } from "firebase/auth";
-import {db} from "../firebase"
+import { db } from "../firebase";
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 const Create = () => {
-  const [newTitle, setNewTitle]=useState("")
-  const [newParagraph, setNewParagraph]=useState(0)
-
-
-
+  const [newTitle, setNewTitle] = useState("");
+  const [newParagraph, setNewParagraph] = useState(0);
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [bloglist, setBloglist] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [userName, setUserName] = useState("");
-  const blogCollectionRef = collection( db , "bloglist");
- 
- //states
+  const blogCollectionRef = collection(db, "bloglist");
 
-
-
-
-  //take data and make blog
-  const createBlog=async()=>{
-    await addDoc(blogCollectionRef,{title:newTitle, paragraph:newParagraph});
- }
- 
-
-
-  useEffect(() => {
-    //blog from firebase
-    const getBlog = async () => {
-      const data = await getDocs(blogCollectionRef);
-      setBloglist(
-        data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getBlog();
-  }, []);
-
-
-
+  const createBlog = async () => {
+    await addDoc(blogCollectionRef, {
+      title: newTitle,
+      paragraph: newParagraph,
+    });
+  };
 
   return (
     <div className="">
@@ -74,8 +53,10 @@ const Create = () => {
             placeholder="Write your thoughts here..."
           ></textarea>
         </div>
-
-        <button onClick={createBlog} className="p-8 w-full fixed bottom-0  bg-green-400">
+        <button
+          onClick={createBlog}
+          className="p-8 w-full fixed bottom-0  bg-green-400"
+        >
           Submit
         </button>
       </div>
