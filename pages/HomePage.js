@@ -4,7 +4,7 @@ import { FaEdit, FaUser, FaSignOutAlt, FaTrash } from "react-icons/fa";
 import Link from "next/link";
 import { deleteUser } from "../redux/features/userSlice";
 import { signOut } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 import { useRouter } from "next/router";
 useRouter;
 
@@ -34,7 +34,7 @@ const HomePage = () => {
       }
       try {
         await signOut(auth);
-        router.push("/auth/Login");
+        router.push("/Login");
       } catch (error) {
         console.error("Error signing out:", error);
       }
@@ -52,7 +52,7 @@ const HomePage = () => {
       if (currentUser) {
         setUser(currentUser);
       } else {
-        router.push("/auth/Login");
+        router.push("/Login");
       }
     };
 
@@ -65,7 +65,7 @@ const HomePage = () => {
     }
     try {
       await signOut(auth);
-      router.push("/auth/Login");
+      router.push("/Login");
     } catch (error) {
       console.error("Error signing out:", error);
     }

@@ -4,19 +4,23 @@ import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useState } from "react";
-
+import {} from '@firebase/firestore'
 const firebaseConfig = {
-  apiKey: "AIzaSyAaUlE0WJVHpfItqPo5G_m8JZmY9wGUmKI",
-  authDomain: "blog-34504.firebaseapp.com",
-  projectId: "blog-34504",
-  storageBucket: "blog-34504.appspot.com",
-  messagingSenderId: "30536874981",
-  appId: "1:30536874981:web:f58242adf373ca25468d0c",
-  measurementId: "G-DP7RJ68ETZ"
+  apiKey: "AIzaSyDYw5vuIefs__wc0RXKOyscyHl5r5U1WFA",
+
+  authDomain: "blogspublished.firebaseapp.com",
+
+  projectId: "blogspublished",
+
+  storageBucket: "blogspublished.appspot.com",
+
+  messagingSenderId: "1096412550643",
+
+  appId: "1:1096412550643:web:a0b484e75df2717b1c6e86"
+
 };
 
 const app = initializeApp(firebaseConfig);
-const firestore = getFirestore(app);
 export const storage = getStorage(app);
 
 export const auth = getAuth(app);
@@ -26,19 +30,18 @@ export function useAuth(){
   const [currentUser, setCurrentUser]=useState();
   useEffect(()=>{
     const unsub=onAuthStateChanged(auth,user=>setCurrentUser(user));
-  return unsub;
+    return unsub;
   },[])
   return currentUser;
 }
 
 //storage
-export async function upload(file, currentUser, setLoading){
-  // Check if currentUser is null or undefined
+export async function upload(file, currentUser, setLoading){ 
   if (!currentUser) {
     console.error("User is not authenticated.");
-    return; // Exit the function
+    return; 
   }
-
+  
   const fileRef = ref(storage, currentUser.uid + '.PNG');
   setLoading(true);
 
@@ -51,3 +54,7 @@ export async function upload(file, currentUser, setLoading){
     setLoading(false);
   }
 }
+
+
+//firestore blogs db
+const db = getFirestore(app);

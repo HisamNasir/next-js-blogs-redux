@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRouter } from "next/router";
-import { auth, storage, upload, useAuth } from "../firebase";
+import { auth, storage, upload, useAuth } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FaUpload, FaUser } from "react-icons/fa";
 

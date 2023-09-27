@@ -4,7 +4,7 @@ import Register from './Register'
 import { useDispatch } from 'react-redux';
 import { signUpUser } from '../redux/features/userSlice';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import {auth} from "./firebase"
+import {auth} from "../firebase"
 // import { useHistory } from 'react-router-dom';
 import { useRouter } from 'next/router'
 
@@ -17,7 +17,7 @@ import { useRouter } from 'next/router'
     const log=async()=>{
       try{
         const user=await signInWithEmailAndPassword(auth, lEmail, lPassword)
-        history.push('/HomePage/page');
+        history.push('/HomePage');
       } catch (error){
         alert(error.message);
         setRegistrationError(error.message);

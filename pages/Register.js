@@ -4,14 +4,21 @@ import { useDispatch } from "react-redux";
 import { signUpUser } from "../redux/features/userSlice";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRouter } from "next/router";
-import { auth, storage, upload, useAuth } from "./firebase";
+import { auth, storage, upload, useAuth } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { FaAccusoft, FaUser } from "react-icons/fa";
+import Profilepic from "./auth/Profilepic";
 const Register = () => {
   const [rName, setrName] = useState("");
   const [rEmail, setrEmail] = useState("");
   const [rPassword, setrPassword] = useState("");
   const history = useRouter();
   const [registrationError, setRegistrationError] = useState(null);
+  const currentUser = useAuth();
+  const [photoURL, setPhotoURL] = useState(<FaUser />);
+  const [photo, setPhoto] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const reg = async () => {
     try {
@@ -22,24 +29,33 @@ const Register = () => {
       );
       const user = userCredential.user;
 
-      if (profilePicture) {
-        const storageRef = ref(storage, `profilePictures/${user.uid}`);
-        const snapshot = await uploadBytes(storageRef, profilePicture);
-        const downloadURL = await getDownloadURL(snapshot.ref);
 
+
+
+      if (photo) {
+        const storageRef = ref(storage, `profilePictures/${user.uid}`);
+        const snapshot = await uploadBytes(storageRef, photo);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+      
         await updateProfile(user, {
           displayName: rName,
           photoURL: downloadURL,
         });
-
-        setProfilePictureURL(downloadURL);
+      
+        setProfilePictureURL(downloadURL); // Note: You should define setProfilePictureURL if it's not defined in your code.
       } else {
         await updateProfile(user, {
           displayName: rName,
         });
       }
+      
 
-      history.push("/auth/Login");
+
+
+
+
+
+      history.push("/Login");
     } catch (error) {
       alert(error.message);
       setRegistrationError(error.message);
@@ -52,7 +68,13 @@ const Register = () => {
 
 
         <form className="p-6 sm:w-[300px] md:w-[600px] rounded-2xl flex flex-col space-y-2 bg-slate-300">
+          {/* <div className="">
 
+               <input type="file" onChange={handleClick}/>
+                <button className="bg-red-500" disabled={loading||!photo} onClick={handleClick}>Upload</button>
+                <image src={photoURL} alt="Avatar" className="avatar"/>
+
+          </div> */}
           <label className="text-black">Name</label>
           <input
             className="p-2 rounded-lg"
