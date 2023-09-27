@@ -7,7 +7,7 @@ import store from "@/redux/store";
 export default function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
-            <ThemeProvider>
+      <ThemeProvider>
         <div className="z-10 fixed w-full flex justify-end">
           <ModeChange />
         </div>

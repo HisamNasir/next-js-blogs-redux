@@ -8,7 +8,7 @@ import {auth} from "../firebase"
 import { useRouter } from 'next/router'
 
   
-  const login = () => {
+  const Login = () => {
     const [lEmail, setlEmail]=useState("");
     const [lPassword, setlPassword]=useState("");
     const history = useRouter();
@@ -35,7 +35,7 @@ import { useRouter } from 'next/router'
         </form>
         {registrationError && <p className="text-red-500 text-center">{registrationError}</p>}
         <div className=' text-center m-2'>
-        <a className='p-2  text-slate-400 hover:text-red-500 hover:font-semibold transition duration-700 text-center' href="/register">register</a>
+        <a className='p-2  text-slate-400 hover:text-red-500 hover:font-semibold transition duration-700 text-center' href="/register">Sign Up</a>
         </div>
         <button onClick={log} className=' bg-green-500 p-2 rounded-b-2xl'>login</button>
       </div>
@@ -43,4 +43,4 @@ import { useRouter } from 'next/router'
   )
 }
 
-export default login
+export default Login

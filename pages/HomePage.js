@@ -194,8 +194,9 @@ const homepage = () => {
           <div className="p-2 border m-4 rounded-3xl" key={result.id}>
             <div className="w-full absolute flex justify-end right-10">
               <div className="flex">
-              <Link href={`/edit?id=${result.id}`}>
-                  <FaEdit /></Link>
+              <Link  className="hover:bg-red-800 p-2 m-2 rounded-lg bg-green-500 text-white text-xl flex flex-col justify-center" href={`/edit?id=${result.id}`}>
+                  <FaEdit />
+              </Link>
                 <button
                   className="hover:bg-red-800 p-2 m-2 rounded-lg bg-red-500 text-white text-xl flex flex-col justify-center"
                   onClick={() => handleDelete(result.id)}

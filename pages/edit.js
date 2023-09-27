@@ -56,31 +56,50 @@ const EditBlogPage = () => {
   };
 
   return (
-    <div>
-      <h1>Edit Blog</h1>
-      <form onSubmit={handleEditSubmit}>
-        <div>
-          <label>Title:</label>
-          <input
-            type="text"
-            value={blogData.title}
-            onChange={(e) =>
-              setBlogData({ ...blogData, title: e.target.value })
-            }
-          />
-        </div>
-        <div>
-          <label>Paragraph:</label>
-          <textarea
-            rows="4"
-            value={blogData.paragraph}
-            onChange={(e) =>
-              setBlogData({ ...blogData, paragraph: e.target.value })
-            }
-          ></textarea>
-        </div>
-        <button type="submit">Save Changes</button>
-      </form>
+    <div className="bg-gray-100 h-screen">
+      <div className=" h-full w-full">
+          <div className="pt-20">
+          <h1 className="text-2xl font-semibold mb-4">Edit Blog</h1>
+        <form onSubmit={handleEditSubmit}>
+          <div className="space-y-4 h-full">
+            <div>
+              <label htmlFor="title" className="block font-medium">
+                Title:
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={blogData.title}
+                onChange={(e) =>
+                  setBlogData({ ...blogData, title: e.target.value })
+                }
+                className="w-full border rounded-lg px-3 py-2"
+              />
+            </div>
+            <div>
+              <label htmlFor="paragraph" className="block font-medium">
+                Paragraph:
+              </label>
+              <textarea
+                rows="10"
+                name="paragraph"
+                value={blogData.paragraph}
+                onChange={(e) =>
+                  setBlogData({ ...blogData, paragraph: e.target.value })
+                }
+                className="w-full border rounded-lg px-3 py-2"
+              ></textarea>
+            </div> 
+              <button
+                type="submit"
+                className="p-8 w-full fixed bottom-0  bg-green-400"
+              >
+                Save Changes
+              </button>
+            </div> 
+        </form>
+          </div>
+      </div>
     </div>
   );
 };

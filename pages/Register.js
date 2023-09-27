@@ -7,7 +7,7 @@ import { auth, storage, upload, useAuth } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FaAccusoft, FaUser } from "react-icons/fa";
 import Profilepic from "../auth/Profilepic";
-const register = () => {
+const Register = () => {
   const [rName, setrName] = useState("");
   const [rEmail, setrEmail] = useState("");
   const [rPassword, setrPassword] = useState("");
@@ -96,4 +96,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default Register;
