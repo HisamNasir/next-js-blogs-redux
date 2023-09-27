@@ -1,30 +1,63 @@
 "use client";
-import React, { useState } from "react";
 import { addUser } from "../redux/features/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { FaEdit, FaUser, FaSignOutAlt, FaTrash } from "react-icons/fa";
+import Link from "next/link";
+import { deleteUser } from "../redux/features/userSlice";
+import { signOut } from "firebase/auth";
+import {db} from "../firebase"
+import { auth } from "../firebase";
+import { useRouter } from "next/router";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 const Create = () => {
+  const [newTitle, setNewTitle]=useState("")
+  const [newParagraph, setNewParagraph]=useState(0)
+
+
+
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [paragraph, setparagraph] = useState("");
-  const users = useSelector((state) => state.users);
-  const dispatch = useDispatch();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(addUser({ id: users[users.length - 1].id + 1, name, paragraph }));
-    router.push("/");
-  };
+  const [user, setUser] = useState(null);
+  const [bloglist, setBloglist] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [userName, setUserName] = useState("");
+  const blogCollectionRef = collection( db , "bloglist");
+ 
+ //states
+
+
+
+
+  //take data and make blog
+  const createBlog=async()=>{
+    await addDoc(blogCollectionRef,{title:newTitle, paragraph:newParagraph});
+ }
+ 
+
+
+  useEffect(() => {
+    //blog from firebase
+    const getBlog = async () => {
+      const data = await getDocs(blogCollectionRef);
+      setBloglist(
+        data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getBlog();
+  }, []);
+
+
+
 
   return (
     <div className="">
-      <form onSubmit={handleSubmit}>
+      <div>
         <div className="p-4 space-y-2 flex flex-col">
           <label htmlFor="name">Title</label>
           <input
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setNewTitle(e.target.value)}
             type="text"
-            name="name"
+            name="title"
             className="form-control rounded-2xl p-4"
           />
         </div>
@@ -33,7 +66,7 @@ const Create = () => {
             Paragraph
           </label>
           <textarea
-            onChange={(e) => setparagraph(e.target.value)}
+            onChange={(e) => setNewParagraph(e.target.value)}
             name="paragraph"
             id="message"
             rows="22"
@@ -41,10 +74,11 @@ const Create = () => {
             placeholder="Write your thoughts here..."
           ></textarea>
         </div>
-        <button className="p-8 w-full fixed bottom-0  bg-green-400">
+
+        <button onClick={createBlog} className="p-8 w-full fixed bottom-0  bg-green-400">
           Submit
         </button>
-      </form>
+      </div>
     </div>
   );
 };

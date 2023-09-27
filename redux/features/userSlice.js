@@ -1,9 +1,14 @@
 const { createSlice } = require("@reduxjs/toolkit");
-const { userList } = require("../../pages/Data");
 //-----------------------------Slice for card-----------------
+const initialState = {
+    users: [], // Initialize an empty array to store Firestore data.
+  };
+
+  
+
 const userSlice=createSlice({
     name:'users',
-    initialState:userList,
+    initialState,
     reducers:{
         addUser:(state,action)=>{
             state.push(action.payload)
@@ -11,6 +16,7 @@ const userSlice=createSlice({
         updateUser:(state,action)=>{
             const {id, name, paragraph}=action.payload;
             const uu=state.find(user=>user.id==id);
+            state.users = action.payload;
             if(uu){
                 uu.name=name;
                 uu.paragraph=paragraph;

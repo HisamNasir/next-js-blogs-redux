@@ -4,106 +4,111 @@ import { FaEdit, FaUser, FaSignOutAlt, FaTrash } from "react-icons/fa";
 import Link from "next/link";
 import { deleteUser } from "../redux/features/userSlice";
 import { signOut } from "firebase/auth";
+import { db } from "../firebase";
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
-useRouter;
+import { checkAuth } from "@/utills/auth";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const HomePage = () => {
-  const user1 = auth.currentUser;
   const router = useRouter();
   const [user, setUser] = useState(null);
+  const [bloglist, setBloglist] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [userName, setUserName] = useState("");
+  const blogCollectionRef = collection(db, "bloglist");
+
+  //Prevent page url leak
+  useEffect(() => {
+    const fetchData = async () => {
+      const currentUser = await checkAuth();
+      if (!currentUser) {
+        // User is not authenticated, redirect to the login page
+        router.push("/Login");
+      } else {
+        setUser(currentUser);
+      }
+    };
+
+    fetchData();
+  }, [router]);
+
+  //search bar
+  const handleSearch = () => {
+    const filteredBlogs = bloglist.filter((blog) =>
+      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(filteredBlogs);
+  };
+
+
 
   useEffect(() => {
-    const user = auth.currentUser;
+    // Fetch blogs from Firebase Firestore
+    const getBlogsFromFirestore = async () => {
+      const querySnapshot = await getDocs(blogCollectionRef);
 
-    if (user) {
-      const name = user.displayName;
-      setUserName(name || "No Name"); // Display "No Name" if the user doesn't have a name
-    }
+      const blogs = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+
+      setBloglist(blogs);
+    };
+
+    getBlogsFromFirestore();
+
+    // Listen for changes in authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+        const name = user.displayName;
+        setUserName(name || "No Name");
+      } else {
+        setUser(null);
+        setUserName("");
+      }
+    });
+
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
   }, []);
 
-  const users = useSelector((state) => state.users);
-  const dispatch = useDispatch();
-  const handleSearch = () => {
-    const handleSignOut = async () => {
-      if (!user) {
-        return null;
-      }
+  // Handle the search logic
+  useEffect(() => {
+    const filteredBlogs = bloglist.filter((blog) =>
+      blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(filteredBlogs);
+  }, [searchTerm, bloglist]);
+
+  const handleSignOut = async () => {
+    if (user) {
       try {
         await signOut(auth);
-        router.push("/Login");
+        router.push("/");
       } catch (error) {
         console.error("Error signing out:", error);
       }
-    };
-
-    const results = users.filter((user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setSearchResults(results);
-  };
-
-  useEffect(() => {
-    const checkUserAuthentication = async () => {
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        setUser(currentUser);
-      } else {
-        router.push("/Login");
-      }
-    };
-
-    checkUserAuthentication();
-  }, []);
-
-  const handleSignOut = async () => {
-    if (!user) {
-      return null;
-    }
-    try {
-      await signOut(auth);
-      router.push("/Login");
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
-  useEffect(() => {
-    const checkUserAuthentication = async () => {
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        setUser(currentUser);
-      } else {
-        router.push("/auth/Login");
-      }
-    };
-
-    checkUserAuthentication();
-  }, []);
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      dispatch(deleteUser({ id: id }));
     }
   };
 
   return (
     <div className="w-full justify-center flex flex-col">
-      <div className=" md:grid space-y-4 grid-flow-col mt-20 items-center">
+      <div className="md:grid space-y-4 grid-flow-col mt-20 items-center">
         <div className="rounded-2xl flex flex-col">
-          <button
-            onClick={handleSignOut}
-            className="bg-red-500  md:mt-0 w-40 p-2 flex items-center justify-center gap-4 text-center rounded-r-2xl"
-          >
-            <FaSignOutAlt /> Sign Out
-          </button>
+          {user ? (
+            <button
+              onClick={handleSignOut}
+              className="bg-red-500 md:mt-0 w-40 p-2 flex items-center justify-center gap-4 text-center rounded-r-2xl"
+            >
+              <FaSignOutAlt /> Sign Out
+            </button>
+          ) : null}
         </div>
-        <div className=" flex flex-col justify-center">
-
-          <div className=" flex justify-center">
+        <div className="flex flex-col justify-center">
+          <div className="flex justify-center">
             {user ? (
               <a href="/auth/Profilepic">
                 {user.photoURL ? (
@@ -120,17 +125,20 @@ const HomePage = () => {
               <p>Please log in to see your profile.</p>
             )}
           </div>
-          <h1 className=" text-center text-2xl md:text-6xl my-2  font-black">
-            Welcome, {userName}!
-          </h1>
+          {user ? (
+            <h1 className="text-center text-2xl md:text-6xl my-2 font-black">
+              Welcome, {userName}!
+            </h1>
+          ) : null}
         </div>
-
-        <div className='relative flex justify-end items-center '>
-            <Link href='/Create' className='bg-green-500 md:mt-0 w-40 p-2 flex  justify-center gap-4 text-center rounded-l-2xl'>
-                Add Card +
-            </Link>
-
-            </div>
+        <div className="relative flex justify-end items-center">
+          <Link
+            href="/Create"
+            className="bg-green-500 md:mt-0 w-40 p-2 flex justify-center gap-4 text-center rounded-l-2xl"
+          >
+            Add Card +
+          </Link>
+        </div>
       </div>
 
       {/* Search bar */}
@@ -144,7 +152,7 @@ const HomePage = () => {
         />
         <button
           onClick={handleSearch}
-          className="bg-blue-500 text-white focus:outline-none  p-4 rounded-r-2xl"
+          className="bg-blue-500 text-white focus:outline-none p-4 rounded-r-2xl"
         >
           Search
         </button>
@@ -171,7 +179,7 @@ const HomePage = () => {
               </div>
             </div>
             <div className="m-4 mb-1 rounded-lg font-black text-2xl flex flex-col justify-center">
-              {result.name}
+              {result.title}
             </div>
             <div className="mx-4 rounded-lg text-lg flex flex-col justify-center">
               {result.paragraph}

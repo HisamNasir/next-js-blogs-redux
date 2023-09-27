@@ -1,10 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useState } from "react";
-import {} from '@firebase/firestore'
+import { getFirestore } from '@firebase/firestore';
 const firebaseConfig = {
   apiKey: "AIzaSyDYw5vuIefs__wc0RXKOyscyHl5r5U1WFA",
 
@@ -57,4 +56,4 @@ export async function upload(file, currentUser, setLoading){
 
 
 //firestore blogs db
-const db = getFirestore(app);
+export const db = getFirestore(app);
