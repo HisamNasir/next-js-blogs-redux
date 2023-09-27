@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { auth, storage, upload, useAuth } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FaAccusoft, FaUser } from "react-icons/fa";
-import Profilepic from "./auth/Profilepic";
+import Profilepic from "../auth/Profilepic";
 const register = () => {
   const [rName, setrName] = useState("");
   const [rEmail, setrEmail] = useState("");
