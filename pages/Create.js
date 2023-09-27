@@ -10,7 +10,7 @@ import { db } from "../firebase";
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-const Create = () => {
+const create = () => {
   const [newTitle, setNewTitle] = useState("");
   const [newParagraph, setNewParagraph] = useState(0);
   const router = useRouter();
@@ -22,10 +22,20 @@ const Create = () => {
   const blogCollectionRef = collection(db, "bloglist");
 
   const createBlog = async () => {
-    await addDoc(blogCollectionRef, {
-      title: newTitle,
-      paragraph: newParagraph,
-    });
+    try {
+      // Add the new blog to Firestore
+      const docRef = await addDoc(blogCollectionRef, {
+        title: newTitle,
+        paragraph: newParagraph,
+      });
+
+      const newBlogId = docRef.id;
+
+      router.push("/homepage");
+
+    } catch (error) {
+      console.error("Error creating blog:", error);
+    }
   };
 
   return (
@@ -53,15 +63,17 @@ const Create = () => {
             placeholder="Write your thoughts here..."
           ></textarea>
         </div>
+
         <button
           onClick={createBlog}
           className="p-8 w-full fixed bottom-0  bg-green-400"
         >
           Submit
         </button>
+
       </div>
     </div>
   );
 };
 
-export default Create;
+export default create;

@@ -18,7 +18,7 @@ import {
   where,
 } from "firebase/firestore";
 
-const HomePage = () => {
+const homepage = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [bloglist, setBloglist] = useState([]);
@@ -34,7 +34,7 @@ const HomePage = () => {
       const currentUser = await checkAuth();
       if (!currentUser) {
         // User is not authenticated, redirect to the login page
-        router.push("/Login");
+        router.push("/login");
       } else {
         setUser(currentUser);
       }
@@ -104,10 +104,23 @@ const HomePage = () => {
     }
   };
   const handleDelete = async (blogId) => {
+    const getBlogsFromFirestore = async () => {
+      const querySnapshot = await getDocs(blogCollectionRef);
+  
+      const blogs = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+  
+      setBloglist(blogs);
+    };
+  
     try {
+      // Delete the blog from Firestore
       await deleteBlogFromFirestore(blogId);
-
-      dispatch(deleteUser(blogId));
+  
+      // Refresh the list of blogs by calling getBlogsFromFirestore
+      await getBlogsFromFirestore();
     } catch (error) {
       console.error("Error deleting blog:", error);
     }
@@ -151,7 +164,7 @@ const HomePage = () => {
         </div>
         <div className="relative flex justify-end items-center">
           <Link
-            href="/Create"
+            href="/create"
             className="bg-green-500 md:mt-0 w-40 p-2 flex justify-center gap-4 text-center rounded-l-2xl"
           >
             Add Card +
@@ -208,4 +221,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default homepage;

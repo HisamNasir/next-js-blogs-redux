@@ -7,7 +7,7 @@ import { auth, storage, upload, useAuth } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FaAccusoft, FaUser } from "react-icons/fa";
 import Profilepic from "./auth/Profilepic";
-const Register = () => {
+const register = () => {
   const [rName, setrName] = useState("");
   const [rEmail, setrEmail] = useState("");
   const [rPassword, setrPassword] = useState("");
@@ -45,10 +45,11 @@ const Register = () => {
         });
       }
 
-      history.push("/Login");
+      history.push("/login");
     } catch (error) {
       alert(error.message);
       setRegistrationError(error.message);
+      
     }
   };
 
@@ -82,7 +83,7 @@ const Register = () => {
           <p className="text-red-500 text-center">{registrationError}</p>
         )}
         <a className="bg-blue-500 p-2 text-center" href="/">
-          Login
+          login
         </a>
         <button
           onClick={reg}
@@ -95,4 +96,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default register;

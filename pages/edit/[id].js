@@ -1,6 +1,6 @@
 
 import { useRouter } from 'next/router';
-import Update from '../Update';
+import Update from '../update';
 
 const EditPage = () => {
   const router = useRouter();

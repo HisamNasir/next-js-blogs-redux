@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../redux/features/userSlice";
 import { useRouter } from "next/router";
 
-const Update = () => {
+const update = () => {
   const navigate = useRouter();
   
   const { id } = useParams();
@@ -72,4 +72,4 @@ const Update = () => {
   );
 };
 
-export default Update;
+export default update;
