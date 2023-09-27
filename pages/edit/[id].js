@@ -4,11 +4,11 @@ import Update from '../Update';
 
 const EditPage = () => {
   const router = useRouter();
-  // const { id } = router.query; 
+  const { id } = router.query; 
 
   return (
     <div>
-      {/* <Update id={id} /> */}
+      <Update id={id} />
     </div>
   );
 };
