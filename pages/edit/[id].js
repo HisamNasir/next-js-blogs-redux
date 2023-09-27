@@ -8,7 +8,7 @@ const EditPage = () => {
 
   return (
     <div>
-      <Update id={id} />
+      {/* <Update id={id} /> */}
     </div>
   );
 };
