@@ -4,17 +4,17 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { getFirestore, deleteDoc, doc } from "@firebase/firestore";
 const firebaseConfig = {
-  apiKey: "AIzaSyDYw5vuIefs__wc0RXKOyscyHl5r5U1WFA",
+  apiKey: " ",
 
-  authDomain: "blogspublished.firebaseapp.com",
+  authDomain: " ",
 
-  projectId: "blogspublished",
+  projectId: " ",
 
-  storageBucket: "blogspublished.appspot.com",
+  storageBucket: " ",
 
-  messagingSenderId: "1096412550643",
+  messagingSenderId: " ",
 
-  appId: "1:1096412550643:web:a0b484e75df2717b1c6e86",
+  appId: " ",
 };
 
 const app = initializeApp(firebaseConfig);
